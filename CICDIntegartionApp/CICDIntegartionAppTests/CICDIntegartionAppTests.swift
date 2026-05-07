@@ -15,5 +15,17 @@ struct CICDIntegartionAppTests {
         // Swift Testing Documentation
         // https://developer.apple.com/documentation/testing
     }
+    
+    @Test func testThatShouldPass() async throws {
+        let expectedValue = 10
+        let actualValue = 10
+        
+        #expect(actualValue == expectedValue, "Values should match")
+    }
+    
+    @Test func testMathCalculation() async throws {
+        let result = 2 + 2
+        #expect(result == 4, "Math should work correctly")
+    }
 
 }

@@ -1,0 +1,163 @@
+name: iOS CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        bundler-cache: true
+        
+    - name: Install Fastlane
+      run: |
+        gem install fastlane
+        echo "✅ Fastlane installed successfully"
+        
+    - name: Run Unit Tests
+      id: tests
+      run: |
+        cd CICDIntegartionApp
+        echo "🧪 Starting test execution..."
+        fastlane test
+        echo "✅ All tests passed!"
+      continue-on-error: true
+        
+    - name: Parse Test Results
+      if: always()
+      run: |
+        cd CICDIntegartionApp
+        if [ -f "test_output/report.junit" ]; then
+          echo "📊 Test Results Summary:"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          
+          # Extract test counts from JUnit XML
+          TOTAL=$(grep -o "tests='[0-9]*'" test_output/report.junit | head -1 | grep -o "[0-9]*")
+          FAILURES=$(grep -o "failures='[0-9]*'" test_output/report.junit | head -1 | grep -o "[0-9]*")
+          
+          echo "Total Tests: $TOTAL"
+          echo "Failures: $FAILURES"
+          echo "Passed: $((TOTAL - FAILURES))"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          
+          # Show failed tests
+          if [ "$FAILURES" -gt 0 ]; then
+            echo "❌ Failed Tests:"
+            grep "<failure" test_output/report.junit | sed 's/.*message="\([^"]*\)".*/  - \1/'
+          fi
+        fi
+        
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: CICDIntegartionApp/test_output/
+        retention-days: 30
+        
+    - name: Upload Test Logs
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-logs
+        path: |
+          CICDIntegartionApp/test_output/*.log
+          CICDIntegartionApp/fastlane/report.xml
+        retention-days: 30
+        
+    - name: Upload Coverage
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: CICDIntegartionApp/test_output/*.xcresult
+        retention-days: 30
+        
+    - name: Publish Test Summary
+      if: always()
+      uses: test-summary/action@v2
+      with:
+        paths: "CICDIntegartionApp/test_output/report.junit"
+        
+    - name: Comment Test Results on PR
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const junitPath = 'CICDIntegartionApp/test_output/report.junit';
+          
+          if (fs.existsSync(junitPath)) {
+            const content = fs.readFileSync(junitPath, 'utf8');
+            const totalMatch = content.match(/tests='(\d+)'/);
+            const failMatch = content.match(/failures='(\d+)'/);
+            
+            const total = totalMatch ? totalMatch[1] : '0';
+            const failures = failMatch ? failMatch[1] : '0';
+            const passed = total - failures;
+            
+            const status = failures > 0 ? '❌ Tests Failed' : '✅ Tests Passed';
+            
+            const comment = `## ${status}
+            
+            📊 **Test Results:**
+            - Total: ${total}
+            - Passed: ${passed}
+            - Failed: ${failures}
+            
+            [View detailed logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          }
+          
+    - name: Fail if tests failed
+      if: steps.tests.outcome == 'failure'
+      run: |
+        echo "❌ Tests failed! Check logs above for details."
+        exit 1
+
+  build:
+    name: Build App
+    runs-on: macos-latest
+    needs: test
+    if: success()
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        
+    - name: Install Fastlane
+      run: gem install fastlane
+        
+    - name: Build iOS App
+      run: |
+        cd CICDIntegartionApp
+        fastlane build
+        
+    - name: Upload IPA
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-app
+        path: CICDIntegartionApp/*.ipa

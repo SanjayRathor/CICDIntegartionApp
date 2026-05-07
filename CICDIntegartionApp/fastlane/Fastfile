@@ -1,0 +1,106 @@
+default_platform(:ios)
+
+platform :ios do
+
+  desc "Run unit tests"
+  lane :test do
+    run_tests(
+      scheme: "CICDIntegartionApp",
+      devices: ["iPhone 17 Pro (26.4)"],
+      clean: true,
+      output_directory: "./test_output",
+      result_bundle: true,
+      code_coverage: true
+    )
+    
+    puts "✅ All tests passed successfully!"
+    puts "📊 Test results: ./test_output"
+    puts "📈 Coverage report: ./test_output/coverage"
+  end
+
+  desc "Run UI tests only"
+  lane :ui_test do
+    run_tests(
+      scheme: "CICDIntegartionApp",
+      devices: ["iPhone 17 Pro (26.4)"],
+      only_testing: ["CICDIntegartionAppUITests"],
+      clean: true
+    )
+  end
+
+  desc "Run unit tests only"
+  lane :unit_test do
+    run_tests(
+      scheme: "CICDIntegartionApp",
+      devices: ["iPhone 17 Pro (26.4)"],
+      skip_testing: ["CICDIntegartionAppUITests"],
+      clean: true
+    )
+  end
+
+  desc "Run tests and build if successful"
+  lane :test_and_build do
+    run_tests(
+      scheme: "CICDIntegartionApp",
+      devices: ["iPhone 17 Pro (26.4)"],
+      clean: true,
+      output_directory: "./test_output",
+      result_bundle: true,
+      code_coverage: true
+    )
+    
+    puts "✅ Tests passed! Starting build..."
+    build
+    puts "🎉 Build completed successfully!"
+  end
+  
+  desc "Run tests with detailed summary"
+  lane :test_verbose do
+    begin
+      run_tests(
+        scheme: "CICDIntegartionApp",
+        devices: ["iPhone 17 Pro (26.4)"],
+        clean: true,
+        output_directory: "./test_output",
+        result_bundle: true,
+        code_coverage: true,
+        output_types: "html,junit",
+        formatter: "xcpretty"
+      )
+      
+      UI.success "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      UI.success "✅ ALL TESTS PASSED!"
+      UI.success "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      UI.message "📊 HTML Report: ./test_output/report.html"
+      UI.message "📋 JUnit Report: ./test_output/report.junit"
+      UI.message "📦 Result Bundle: ./test_output/*.xcresult"
+      UI.message "📈 Code Coverage: Enabled"
+      UI.success "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      
+    rescue => ex
+      UI.error "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      UI.error "❌ TESTS FAILED!"
+      UI.error "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      UI.error "Error: #{ex.message}"
+      UI.message "📊 Check logs in: ./test_output"
+      UI.error "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      raise ex
+    end
+  end
+
+  desc "Build iOS app"
+  lane :build do
+    build_app(
+      scheme: "CICDIntegartionApp",
+      export_method: "development",
+      export_team_id: "TQL8USX5RN",
+      skip_profile_detection: false,
+      export_options: {
+        provisioningProfiles: {
+          "com.ios.test.cidc" => "cidc"
+        }
+      }
+    )
+  end
+
+end
