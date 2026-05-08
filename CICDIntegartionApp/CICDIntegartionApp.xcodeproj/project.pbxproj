@@ -14,19 +14,11 @@
 			remoteGlobalIDString = 834EC8B32FAC8E5B004DBACE;
 			remoteInfo = CICDIntegartionApp;
 		};
-		834EC8CC2FAC8E5D004DBACE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 834EC8AC2FAC8E5B004DBACE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 834EC8B32FAC8E5B004DBACE;
-			remoteInfo = CICDIntegartionApp;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		834EC8B42FAC8E5C004DBACE /* CICDIntegartionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CICDIntegartionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		834EC8C12FAC8E5D004DBACE /* CICDIntegartionAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CICDIntegartionAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		834EC8CB2FAC8E5D004DBACE /* CICDIntegartionAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CICDIntegartionAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -62,13 +54,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		834EC8C82FAC8E5D004DBACE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -87,7 +72,6 @@
 			children = (
 				834EC8B42FAC8E5C004DBACE /* CICDIntegartionApp.app */,
 				834EC8C12FAC8E5D004DBACE /* CICDIntegartionAppTests.xctest */,
-				834EC8CB2FAC8E5D004DBACE /* CICDIntegartionAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,29 +124,6 @@
 			productReference = 834EC8C12FAC8E5D004DBACE /* CICDIntegartionAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		834EC8CA2FAC8E5D004DBACE /* CICDIntegartionAppUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 834EC8DB2FAC8E5D004DBACE /* Build configuration list for PBXNativeTarget "CICDIntegartionAppUITests" */;
-			buildPhases = (
-				834EC8C72FAC8E5D004DBACE /* Sources */,
-				834EC8C82FAC8E5D004DBACE /* Frameworks */,
-				834EC8C92FAC8E5D004DBACE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				834EC8CD2FAC8E5D004DBACE /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				834EC8CE2FAC8E5D004DBACE /* CICDIntegartionAppUITests */,
-			);
-			name = CICDIntegartionAppUITests;
-			packageProductDependencies = (
-			);
-			productName = CICDIntegartionAppUITests;
-			productReference = 834EC8CB2FAC8E5D004DBACE /* CICDIntegartionAppUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -177,10 +138,6 @@
 						CreatedOnToolsVersion = 26.4;
 					};
 					834EC8C02FAC8E5D004DBACE = {
-						CreatedOnToolsVersion = 26.4;
-						TestTargetID = 834EC8B32FAC8E5B004DBACE;
-					};
-					834EC8CA2FAC8E5D004DBACE = {
 						CreatedOnToolsVersion = 26.4;
 						TestTargetID = 834EC8B32FAC8E5B004DBACE;
 					};
@@ -202,7 +159,6 @@
 			targets = (
 				834EC8B32FAC8E5B004DBACE /* CICDIntegartionApp */,
 				834EC8C02FAC8E5D004DBACE /* CICDIntegartionAppTests */,
-				834EC8CA2FAC8E5D004DBACE /* CICDIntegartionAppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -216,13 +172,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		834EC8BF2FAC8E5D004DBACE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		834EC8C92FAC8E5D004DBACE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -246,13 +195,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		834EC8C72FAC8E5D004DBACE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -260,11 +202,6 @@
 			isa = PBXTargetDependency;
 			target = 834EC8B32FAC8E5B004DBACE /* CICDIntegartionApp */;
 			targetProxy = 834EC8C22FAC8E5D004DBACE /* PBXContainerItemProxy */;
-		};
-		834EC8CD2FAC8E5D004DBACE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 834EC8B32FAC8E5B004DBACE /* CICDIntegartionApp */;
-			targetProxy = 834EC8CC2FAC8E5D004DBACE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -510,46 +447,6 @@
 			};
 			name = Release;
 		};
-		834EC8DC2FAC8E5D004DBACE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TQL8USX5RN;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.test.cidc.CICDIntegartionAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CICDIntegartionApp;
-			};
-			name = Debug;
-		};
-		834EC8DD2FAC8E5D004DBACE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TQL8USX5RN;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.test.cidc.CICDIntegartionAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CICDIntegartionApp;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -576,15 +473,6 @@
 			buildConfigurations = (
 				834EC8D92FAC8E5D004DBACE /* Debug */,
 				834EC8DA2FAC8E5D004DBACE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		834EC8DB2FAC8E5D004DBACE /* Build configuration list for PBXNativeTarget "CICDIntegartionAppUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				834EC8DC2FAC8E5D004DBACE /* Debug */,
-				834EC8DD2FAC8E5D004DBACE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
