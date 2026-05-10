@@ -29,7 +29,7 @@ jobs:
     - name: Run Unit Tests
       id: tests
       run: |
-        cd CICDIntegartionApp
+        cd CICDIntegartionApp/CICDIntegartionApp
         echo "🧪 Starting test execution..."
         fastlane test
         echo "✅ All tests passed!"
@@ -38,7 +38,7 @@ jobs:
     - name: Parse Test Results
       if: always()
       run: |
-        cd CICDIntegartionApp
+        cd CICDIntegartionApp/CICDIntegartionApp
         if [ -f "test_output/report.junit" ]; then
           echo "📊 Test Results Summary:"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -62,7 +62,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: CICDIntegartionApp/test_output/
+        path: CICDIntegartionApp/CICDIntegartionApp/test_output/
         retention-days: 30
         
     - name: Fail if tests failed
@@ -91,11 +91,11 @@ jobs:
         
     - name: Build iOS App
       run: |
-        cd CICDIntegartionApp
+        cd CICDIntegartionApp/CICDIntegartionApp
         fastlane build
         
     - name: Upload IPA
       uses: actions/upload-artifact@v4
       with:
         name: ios-app
-        path: CICDIntegartionApp/*.ipa
+        path: CICDIntegartionApp/CICDIntegartionApp/*.ipa
