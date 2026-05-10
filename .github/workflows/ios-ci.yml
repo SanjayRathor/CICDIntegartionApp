@@ -19,43 +19,13 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.2'
-        bundler-cache: true
         
     - name: Install Fastlane
-      run: |
-        gem install fastlane
-        echo "✅ Fastlane installed successfully"
+      run: gem install fastlane
         
     - name: Run Unit Tests
-      id: tests
-      run: |
-        cd CICDIntegartionApp/CICDIntegartionApp
-        echo "🧪 Starting test execution..."
-        fastlane test
-        echo "✅ All tests passed!"
-      continue-on-error: true
-        
-    - name: Parse Test Results
-      if: always()
-      run: |
-        cd CICDIntegartionApp/CICDIntegartionApp
-        if [ -f "test_output/report.junit" ]; then
-          echo "📊 Test Results Summary:"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          
-          TOTAL=$(grep -o "tests='[0-9]*'" test_output/report.junit | head -1 | grep -o "[0-9]*")
-          FAILURES=$(grep -o "failures='[0-9]*'" test_output/report.junit | head -1 | grep -o "[0-9]*")
-          
-          echo "Total Tests: $TOTAL"
-          echo "Failures: $FAILURES"
-          echo "Passed: $((TOTAL - FAILURES))"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          
-          if [ "$FAILURES" -gt 0 ]; then
-            echo "❌ Failed Tests:"
-            grep "<failure" test_output/report.junit | sed 's/.*message="\([^"]*\)".*/  - \1/'
-          fi
-        fi
+      working-directory: ./CICDIntegartionApp/CICDIntegartionApp
+      run: fastlane test
         
     - name: Upload Test Results
       if: always()
@@ -63,13 +33,6 @@ jobs:
       with:
         name: test-results
         path: CICDIntegartionApp/CICDIntegartionApp/test_output/
-        retention-days: 30
-        
-    - name: Fail if tests failed
-      if: steps.tests.outcome == 'failure'
-      run: |
-        echo "❌ Tests failed! Check logs above for details."
-        exit 1
 
   build:
     name: Build App
@@ -90,9 +53,8 @@ jobs:
       run: gem install fastlane
         
     - name: Build iOS App
-      run: |
-        cd CICDIntegartionApp/CICDIntegartionApp
-        fastlane build
+      working-directory: ./CICDIntegartionApp/CICDIntegartionApp
+      run: fastlane build
         
     - name: Upload IPA
       uses: actions/upload-artifact@v4
