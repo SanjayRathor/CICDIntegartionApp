@@ -15,6 +15,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
+    - name: Debug - Show directory structure
+      run: |
+        echo "📁 Current directory:"
+        pwd
+        echo ""
+        echo "📁 Directory contents:"
+        ls -la
+        echo ""
+        echo "📁 Looking for Fastfile:"
+        find . -name "Fastfile" -type f
+        echo ""
+        echo "📁 Full tree (first 3 levels):"
+        find . -maxdepth 3 -type d
+      
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -26,6 +40,8 @@ jobs:
     - name: Run Unit Tests
       run: |
         cd CICDIntegartionApp
+        pwd
+        ls -la
         fastlane test
         
     - name: Upload Test Results
