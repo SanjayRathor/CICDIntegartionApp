@@ -25,7 +25,7 @@ jobs:
         
     - name: Run Unit Tests
       run: |
-        cd CICDIntegartionApp/CICDIntegartionApp
+        cd CICDIntegartionApp
         fastlane test
         
     - name: Upload Test Results
@@ -33,7 +33,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: CICDIntegartionApp/CICDIntegartionApp/test_output/
+        path: CICDIntegartionApp/test_output/
 
   build:
     name: Build App
@@ -55,11 +55,11 @@ jobs:
         
     - name: Build iOS App
       run: |
-        cd CICDIntegartionApp/CICDIntegartionApp
+        cd CICDIntegartionApp
         fastlane build
         
     - name: Upload IPA
       uses: actions/upload-artifact@v4
       with:
         name: ios-app
-        path: CICDIntegartionApp/CICDIntegartionApp/*.ipa
+        path: CICDIntegartionApp/*.ipa
