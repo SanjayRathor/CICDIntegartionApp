@@ -1,1 +1,65 @@
+name: iOS CI/CD
 
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        
+    - name: Install Fastlane
+      run: gem install fastlane
+        
+    - name: Run Unit Tests
+      run: |
+        cd CICDIntegartionApp
+        fastlane test
+        
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: CICDIntegartionApp/test_output/
+
+  build:
+    name: Build App
+    runs-on: macos-latest
+    needs: test
+    if: success()
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        
+    - name: Install Fastlane
+      run: gem install fastlane
+        
+    - name: Build iOS App
+      run: |
+        cd CICDIntegartionApp
+        fastlane build
+        
+    - name: Upload IPA
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-app
+        path: CICDIntegartionApp/*.ipa
