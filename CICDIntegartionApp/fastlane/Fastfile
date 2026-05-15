@@ -1,4 +1,4 @@
-default_platform(:ios)
+iPhone 17 Pro (26.4)default_platform(:ios)
 
 platform :ios do
 
@@ -6,7 +6,6 @@ platform :ios do
   lane :test do
     run_tests(
       scheme: "CICDIntegartionApp",
-      devices: ["iPhone 17 Pro (26.4)"],
       clean: true,
       output_directory: "./test_output",
       result_bundle: true,
@@ -22,7 +21,6 @@ platform :ios do
   lane :ui_test do
     run_tests(
       scheme: "CICDIntegartionApp",
-      devices: ["iPhone 17 Pro (26.4)"],
       only_testing: ["CICDIntegartionAppUITests"],
       clean: true
     )
@@ -32,7 +30,6 @@ platform :ios do
   lane :unit_test do
     run_tests(
       scheme: "CICDIntegartionApp",
-      devices: ["iPhone 17 Pro (26.4)"],
       skip_testing: ["CICDIntegartionAppUITests"],
       clean: true
     )
@@ -42,7 +39,6 @@ platform :ios do
   lane :test_and_build do
     run_tests(
       scheme: "CICDIntegartionApp",
-      devices: ["iPhone 17 Pro (26.4)"],
       clean: true,
       output_directory: "./test_output",
       result_bundle: true,
@@ -59,7 +55,6 @@ platform :ios do
     begin
       run_tests(
         scheme: "CICDIntegartionApp",
-        devices: ["iPhone 17 Pro (26.4)"],
         clean: true,
         output_directory: "./test_output",
         result_bundle: true,
