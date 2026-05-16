@@ -2,77 +2,35 @@ name: iOS CI/CD
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
 
 jobs:
   test:
     name: Run Tests
-    runs-on: macos-15
-
+    runs-on: macos-latest
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_15.4.app
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3'
-          bundler-cache: true
-
-      - name: Install Dependencies
-        run: |
-          cd CICDIntegartionApp
-          bundle install
-
-      - name: Run Unit Tests
-        run: |
-          cd CICDIntegartionApp
-          bundle exec fastlane test
-
-      - name: Upload Test Results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: CICDIntegartionApp/test_output/
-
-  build:
-    name: Build App
-    runs-on: macos-15
-    needs: test
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_15.4.app
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3'
-          bundler-cache: true
-
-      - name: Install Dependencies
-        run: |
-          cd CICDIntegartionApp
-          bundle install
-
-      - name: Build iOS App
-        run: |
-          cd CICDIntegartionApp
-          bundle exec fastlane build
-
-      - name: Upload IPA
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-app
-          path: |
-            CICDIntegartionApp/*.ipa
-            CICDIntegartionApp/**/*.ipa
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        
+    - name: Install Fastlane
+      run: gem install fastlane
+        
+    - name: Run Unit Tests
+      run: |
+        cd CICDIntegartionApp
+        fastlane test
+        
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: CICDIntegartionApp/test_output/
